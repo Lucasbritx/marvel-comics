@@ -1,0 +1,141 @@
+body {
+  background-image: url("./assets/images/red-background.jpg");
+  background-size: cover;
+  margin: 0;
+  border: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100vh
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.container-comics {
+  width: 100%;
+  min-height: 80vh;
+  max-height: 80vh;
+  overflow-y: scroll;
+}
+
+.container-comics::-webkit-scrollbar {
+  width: 10px;
+}
+
+.container-comics::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.container-comics::-webkit-scrollbar-thumb {
+  background: #770000;
+}
+
+.container-comics::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.list-comics {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 2fr));
+  grid-gap: 1rem;
+}
+
+.list-comics .container-comic {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: 0.3s;
+  width: 75%;
+}
+
+.list-comics .container-comic img {
+  display: block;
+  width: 100%;
+}
+
+.list-comics .container-comic .description {
+  position: absolute;
+  height: 50%;
+  opacity:0;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+  text-align: center;
+  font-size: 20px;
+  padding: 20px;
+  color: #ffffff;
+}
+
+.list-comics .container-comic:hover .description {
+  opacity: 1;
+}
+
+.list-comics .container-comic:hover img {
+  opacity: 0.3;
+}
+
+.list-comics .container-comic:hover {
+  transform: translate(0, -10px);
+}
+
+.container-filter {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.container-filter button {
+  cursor: pointer;
+}
+
+.modal-comics {
+  background-image: url("./assets/images/hq-background.jpeg");
+  width: 100%;
+  height: 100%;
+  opacity: 0.3;
+}
+
+.hq-info {
+  position: absolute;
+    text-align: center;
+    width: 100%;
+    top: 20%;
+    color: #ffffff;
+    background: red;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+}
+
+.hq-info-text {
+  padding: 2rem;
+  width: 100%;
+}
+
+.hq-info-text p:first-child{
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+.filter {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.filter input {
+  border: none;
+  width: 80%;
+  height: 2rem;
+  border-radius: 0.6rem;
+  text-align: center;
+  padding: .5rem;
+}
