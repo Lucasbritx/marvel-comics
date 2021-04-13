@@ -1,3 +1,5 @@
+$primary-red: #B22222	;
+
 body {
   background-image: url("./assets/images/red-background.jpg");
   background-size: cover;
@@ -51,7 +53,6 @@ code {
   align-items: center;
   position: relative;
   transition: 0.3s;
-  width: 75%;
 }
 
 .list-comics .container-comic img {
@@ -109,7 +110,7 @@ code {
     width: 100%;
     top: 20%;
     color: #ffffff;
-    background: red;
+    background: $primary-red;
     font-weight: 700;
     display: flex;
     align-items: center;
@@ -125,9 +126,21 @@ code {
   font-weight: 900;
 }
 
+@media only screen and (max-width: 1023px) {
+  .div-logo {
+    display: none;
+  }
+}
+
+.header {
+  width: 100%;
+  background-color: $primary-red;
+  display: flex;
+}
+
 .filter {
   display: flex;
-  justify-content: center;
+  width: 80%;
   padding: 1rem;
 }
 
@@ -138,4 +151,46 @@ code {
   border-radius: 0.6rem;
   text-align: center;
   padding: .5rem;
+}
+
+.logo {
+  width: 200px;
+}
+
+.div-logo {
+  width: 20%;
+}
+
+.div-send-email-button {
+  width: 20%;
+  padding: 2rem;
+  text-align: center;
+  align-self: center;
+}
+
+.hq-button {
+	box-shadow: 3px 4px 0px 0px #8a2a21;
+	background:linear-gradient(to bottom, #c62d1f 5%, #f24437 100%);
+	background-color:#c62d1f;
+	border-radius:18px;
+	border:1px solid #d02718;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	padding:7px 25px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #810e05;
+}
+.hq-button:hover {
+	background:linear-gradient(to bottom, #f24437 5%, #c62d1f 100%);
+	background-color:#f24437;
+}
+
+.pagination {
+  background-color: #770000;
+  width: 20px;
+  margin: 5px;
+  text-align: center;
 }
