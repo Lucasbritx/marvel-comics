@@ -18,7 +18,7 @@
     height: calc(100% - 10rem);
   }
 
-  .modal-main button {
+  .close-button {
     position: absolute;
     top: 1rem;
     left: 1rem;
