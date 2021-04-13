@@ -216,7 +216,6 @@ const ListComics: FC = () => {
                     thumbnail: comics[comicIndex].thumbnail
                 })
                 setComicsToSend(newComicsArray);
-                console.log(comicsToSend);
             }}
             >
             Selecionar
