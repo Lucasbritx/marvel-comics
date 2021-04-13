@@ -141,7 +141,7 @@ const ListComics: FC = () => {
                             prev
                         </button>
                     )}
-                    {<p>{offset + 1}</p>}
+                    {<p>{!!offset ? offset/20 + 1 : 1 }</p>}
                     <button onClick={()=>setOffset(prevState => prevState + 20)}>next</button>
                 </div>
             )}
