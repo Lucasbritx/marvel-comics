@@ -1,14 +1,13 @@
 import React, { useEffect, useState, useCallback, FC, useRef } from "react";
 import marvelLogo from "../assets/images/Marvel-Logo.png";
-import heart from "../assets/images/heart.svg";
-import heartSelected from "../assets/images/heartSelected.svg";
+import heart from "../assets/images/heart.png";
+import heartSelected from "../assets/images/heartSelected.png";
 import Modal from "../components/Modal";
 import api from "../middlewares/axios";
 import emailjs from "../utils/emailjs";
 import DotLoader from "react-spinners/ClipLoader";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
-import { ReactSVG } from "react-svg";
 
 interface IThumbnail {
   extension: string;
@@ -149,8 +148,8 @@ const ListComics: FC = () => {
           <div className={`select ${
             loading ? "display-none" : ""
           }`}>
-            <ReactSVG
-              className={`heart ${isComicSelected(comic.id) ? 'heartSelected' : ''}`}
+            <img
+              className={`heart`}
               alt={ImageNotFound}
               onClick={() => {
                 if (isComicSelected(comic.id)) {
