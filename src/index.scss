@@ -62,7 +62,7 @@ code {
   transition: 0.3s;
 }
 
-.list-comics .container-comic img {
+.list-comics .container-comic .comic-image {
   display: block;
   width: 100%;
   height: 100%;
@@ -86,10 +86,8 @@ code {
 
 .list-comics .container-comic .select {
   position: absolute;
-  top: 0;
-  width: 2rem;
-  left: 0;
-  padding: 1rem;
+  top: 4px;
+  right: 4px;
 }
 
 .list-comics .container-comic .select img {
@@ -100,7 +98,7 @@ code {
   opacity: 1;
 }
 
-.list-comics .container-comic:hover img {
+.list-comics .container-comic:hover .comic-image {
   opacity: 0.3;
 }
 
@@ -186,6 +184,17 @@ code {
   .select-hq-button {
     margin: 8px;
   }
+  .modal-main {
+    position: static !important;
+    background: $white;
+    width: 80%;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: none !important;
+    transform: none !important;
+    height: calc(100% - 10rem);
+    }
 }
 
 .header {
@@ -281,4 +290,20 @@ code {
 
 .display-none {
   display: none;
+}
+
+.heart {
+  background-color: rgba($color: #444, $alpha: 0.5);
+  border-radius: 50%;
+  padding: 4px;
+  width: 24px;
+  height: 24px;
+  svg path {
+    fill: $white;
+  }
+}
+.heartSelected {
+  svg path {
+    fill: $primary-red;
+  }
 }
