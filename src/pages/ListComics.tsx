@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useCallback, FC, useRef } from "react";
 import marvelLogo from "../assets/images/Marvel-Logo.png";
-import heart from "../assets/images/heart.png";
-import heartSelected from "../assets/images/heartSelected.png";
+import heart from "../assets/images/heart.svg";
+import heartSelected from "../assets/images/heartSelected.svg";
 import Modal from "../components/Modal";
 import api from "../middlewares/axios";
 import emailjs from "../utils/emailjs";
 import DotLoader from "react-spinners/ClipLoader";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
+import { ReactSVG } from "react-svg";
 
 interface IThumbnail {
   extension: string;
@@ -132,6 +133,7 @@ const ListComics: FC = () => {
           }`}
         >
           <img
+            className="comic-image"
             alt={ImageNotFound}
             src={`${comic.thumbnail.path}/portrait_incredible.${comic.thumbnail.extension}`}
           />
@@ -147,7 +149,8 @@ const ListComics: FC = () => {
           <div className={`select ${
             loading ? "display-none" : ""
           }`}>
-            <img
+            <ReactSVG
+              className={`heart ${isComicSelected(comic.id) ? 'heartSelected' : ''}`}
               alt={ImageNotFound}
               onClick={() => {
                 if (isComicSelected(comic.id)) {
@@ -212,6 +215,12 @@ const ListComics: FC = () => {
     })
   };
 
+  const validateEmail = ():boolean =>  
+    {
+        var re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    }
+
   return (
     <>
       <div className="header">
@@ -226,7 +235,7 @@ const ListComics: FC = () => {
               setEmail(e.target.value);
             }}
           />
-          <button disabled={!email || loading} onClick={sendEmail}>
+          <button disabled={!email || loading || !validateEmail()} onClick={sendEmail}>
             Enviar e-mail
           </button>
         </div>
