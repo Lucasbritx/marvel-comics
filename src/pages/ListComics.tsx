@@ -234,7 +234,7 @@ const ListComics: FC = () => {
               setEmail(e.target.value);
             }}
           />
-          <button disabled={!email || loading || !validateEmail()} onClick={sendEmail}>
+          <button disabled={!email || loading || !validateEmail() || !comicsToSend.length } onClick={sendEmail}>
             Enviar e-mail
           </button>
         </div>
