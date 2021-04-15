@@ -171,7 +171,11 @@ code {
   } 
   .list-comics {
     padding: 10px;
+    grid-template-columns: repeat(auto-fill,minmax(8rem,1fr)) !important;
   }
+  .list-comics .container-comic {
+    height: 14rem !important;
+   }
   .hq-info {
     display: block;
     top: 0%;
