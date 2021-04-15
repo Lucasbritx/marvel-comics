@@ -1,7 +1,10 @@
 $primary-red: #B22222	;
+$footer-header-red: #770000;
+$selected-yellow: #ffff00;
+$white: #ffffff;
 
 body {
-  background-image: url("./assets/images/red-background.jpg");
+  background:#a71111;
   background-size: cover;
   margin: 0;
   border: 0;
@@ -17,10 +20,13 @@ code {
     monospace;
 }
 
+.hq-selected {
+  border: 2px solid;
+  border-color: $selected-yellow
+}
+
 .container-comics {
   width: 100%;
-  min-height: 80vh;
-  max-height: 80vh;
   overflow-y: scroll;
 }
 
@@ -33,7 +39,7 @@ code {
 }
 
 .container-comics::-webkit-scrollbar-thumb {
-  background: #770000;
+  background: $footer-header-red;
 }
 
 .container-comics::-webkit-scrollbar-thumb:hover {
@@ -58,6 +64,7 @@ code {
 .list-comics .container-comic img {
   display: block;
   width: 100%;
+  height: 100%;
 }
 
 .list-comics .container-comic .description {
@@ -73,6 +80,19 @@ code {
   font-size: 20px;
   padding: 20px;
   color: #ffffff;
+  cursor: -webkit-zoom-in;
+}
+
+.list-comics .container-comic .select {
+  position: absolute;
+  top: 0;
+  width: 2rem;
+  left: 0;
+  padding: 1rem;
+}
+
+.list-comics .container-comic .select img {
+  cursor: pointer;
 }
 
 .list-comics .container-comic:hover .description {
@@ -87,13 +107,17 @@ code {
   transform: translate(0, -10px);
 }
 
-.container-filter {
+.container-pagination {
   display: flex;
   justify-content: center;
   padding: 1rem;
+  background-color: $footer-header-red;
+  bottom: 0;
+  position: fixed;
+  width: 100%;
 }
 
-.container-filter button {
+.container-pagination button {
   cursor: pointer;
 }
 
@@ -126,22 +150,49 @@ code {
   font-weight: 900;
 }
 
-@media only screen and (max-width: 1023px) {
+@media only screen and (max-width: 495px) {
+  .header {
+    flex-direction: column;
+  }
   .div-logo {
-    display: none;
+    width: 100% !important;
+    display: flex;
+    justify-content: center;
+  }
+  .div-send-email-button {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .div-send-email-button input {
+    width: 100% !important;
+  } 
+  .list-comics {
+    padding: 10px;
+  }
+  .hq-info {
+    display: block;
+  }
+  .hq-info-text {
+    padding: 0;
+  }
+  .select-hq-button {
+    margin: 8px;
   }
 }
 
 .header {
   width: 100%;
-  background-color: $primary-red;
+  background-color: $footer-header-red;
   display: flex;
+  justify-content: space-between;
 }
 
 .filter {
-  display: flex;
-  width: 80%;
   padding: 1rem;
+  display: flex;
+  justify-content: center;
 }
 
 .filter input {
@@ -162,10 +213,19 @@ code {
 }
 
 .div-send-email-button {
-  width: 20%;
-  padding: 2rem;
+  padding: 1rem;
   text-align: center;
   align-self: center;
+}
+
+.div-send-email-button input {
+  margin-bottom: 0.3rem;
+  border: none;
+  height: 1rem;
+  border-radius: 0.6rem;
+  text-align: center;
+  padding: .5rem;
+  width: 90%;
 }
 
 .hq-button {
@@ -189,8 +249,28 @@ code {
 }
 
 .pagination {
-  background-color: #770000;
+  font-weight: 700;
+  color: $white;
   width: 20px;
   margin: 5px;
   text-align: center;
+}
+
+.select-hq-button {
+  border-radius: .3rem;
+  padding: .4rem;
+  color: #ffffff;
+  background: #848484;
+  border: none;
+}
+
+.spinner {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.display-none {
+  display: none;
 }

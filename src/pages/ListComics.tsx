@@ -1,8 +1,13 @@
 import React, { useEffect, useState, useCallback, FC, useRef } from "react";
 import marvelLogo from "../assets/images/Marvel-Logo.png";
+import heart from "../assets/images/heart.png";
+import heartSelected from "../assets/images/heartSelected.png";
 import Modal from "../components/Modal";
 import api from "../middlewares/axios";
 import emailjs from "../utils/emailjs";
+import DotLoader from "react-spinners/ClipLoader";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 interface IThumbnail {
   extension: string;
@@ -11,11 +16,16 @@ interface IThumbnail {
 
 interface IComic {
   id?: number;
-  digitalId?: number;
   description: string;
   title: string;
   thumbnail: IThumbnail;
 }
+
+const override = `
+  display: block;
+  margin: 0 auto;
+  border-color: red;
+`;
 
 const useOutsideClick = (ref: any, callback: any) => {
   const handleClick = (e: any) => {
@@ -35,12 +45,12 @@ const useOutsideClick = (ref: any, callback: any) => {
 
 const ListComics: FC = () => {
   const [comics, setComics] = useState<IComic[]>([]);
-  const [comicsFiltereds, setComicsFiltereds] = useState<IComic[]>([]);
   const [comicsToSend, setComicsToSend] = useState<IComic[]>([]);
   const [offset, setOffset] = useState(0);
   const [filter, setFilter] = useState("");
   const [comicIndex, setComicIndex] = useState(0);
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const [showModal, setShowModal] = useState(false);
   const ImageNotFound = "Imagem não encontrada!";
@@ -60,15 +70,27 @@ const ListComics: FC = () => {
     return await api.get(comicsUrl);
   }, []);
 
+  const sendEmail = async () => {
+    try {
+      setLoading(true);
+      await emailjs(email, convertComicsJSONtoString().join(' \n \n '));
+      toast.success("E-mail enviado");
+      setLoading(false);
+    } catch (error) {
+      toast.error("Erro ao enviar o e-mail");
+    }
+  };
+
   const getComics = useCallback(async () => {
     const comicsUrl = `/comics?offset=${offset}`;
     try {
+      setLoading(true);
       const { data } = !!filter
         ? await getComicsByFilter(comicsUrl)
         : await getInitialComics(comicsUrl);
 
-      setOffset(data.data.offset);
       setComics(data.data.results);
+      setLoading(false);
     } catch (error) {
       setComics([]);
     }
@@ -83,8 +105,12 @@ const ListComics: FC = () => {
   });
 
   useEffect(() => {
-    const delayFilter = setTimeout(getComics, 500);
-    setOffset(0);
+    const delayFilter = setTimeout(() => {
+      if (filter.length === 0 || filter.length >= 3) {
+        getComics();
+        setOffset(0);
+      }
+    }, 500);
 
     return () => {
       clearTimeout(delayFilter);
@@ -96,10 +122,15 @@ const ListComics: FC = () => {
     setComicIndex(comicIndex);
   };
 
-  const listComics = (c: any) => {
-    return c.map((comic: IComic, index: number) => {
+  const listComics = () => {
+    return comics.map((comic: IComic, index: number) => {
       return (
-        <li key={comic.id} className="container-comic">
+        <li
+          key={comic.id}
+          className={`container-comic ${
+            isComicSelected(comic.id) ? "hq-selected" : ""
+          }`}
+        >
           <img
             alt={ImageNotFound}
             src={`${comic.thumbnail.path}/portrait_incredible.${comic.thumbnail.extension}`}
@@ -112,21 +143,74 @@ const ListComics: FC = () => {
           >
             {comic.title}
           </div>
+
+          <div className={`select ${
+            loading ? "display-none" : ""
+          }`}>
+            <img
+              alt={ImageNotFound}
+              onClick={() => {
+                if (isComicSelected(comic.id)) {
+                  removeHqToSend(comic.id);
+                } else {
+                  selectHqToSend(comic.id);
+                }
+              }}
+              src={isComicSelected(comic.id) ? heartSelected : heart}
+            />
+          </div>
         </li>
       );
     });
   };
 
-  useEffect(() => {
-    getComics();
-  }, [offset]);
+  const isComicSelected = useCallback(
+    (comicId) => {
+      if (comicsToSend.length > 0) {
+        return comicsToSend.some((comic) => comic.id === comicId);
+      } else {
+        return false;
+      }
+    },
+    [comicsToSend]
+  );
 
   useEffect(() => {
-    const comicsFiltered = comics.filter((comic: IComic) => {
-      return comic.title.toLowerCase().includes(filter.toLowerCase());
-    });
-    setComicsFiltereds(comicsFiltered);
-  }, [filter, comics]);
+    getComics();
+  }, [offset, getComics]);
+
+  const selectHqToSend = (comicId: any) => {
+    const newComicsArray = comicsToSend;
+    const comic = comics?.find((comic) => comic.id === comicId);
+    if (comic) {
+      newComicsArray.push({
+        id: comic.id,
+        description: comic.description,
+        thumbnail: comic.thumbnail,
+        title: comic.title,
+      });
+    }
+    getComics();
+    setComicsToSend(newComicsArray);
+  };
+
+  const removeHqToSend = (comicId: any) => {
+    const comicsSelecteds = comicsToSend.filter(
+      (comic) => comic.id !== comicId
+    );
+    getComics();
+    setComicsToSend(comicsSelecteds);
+  };
+
+  const convertComicsJSONtoString = () => {
+    return comicsToSend.map((c: IComic)=> {
+      return `
+      ${`Title: ${c.title} \n`}
+      ${`Description: ${c.description} \n`}
+      ${`HQ Image Link: ${c.thumbnail.path} \n`}
+      `
+    })
+  };
 
   return (
     <>
@@ -134,15 +218,7 @@ const ListComics: FC = () => {
         <div className="div-logo">
           <img className="logo" alt={ImageNotFound} src={marvelLogo} />
         </div>
-        <div className="filter">
-          <input
-            placeholder="Digite ao menos 3 caracteres!"
-            value={filter}
-            onChange={(e) => {
-              setFilter(e.target.value);
-            }}
-          />
-        </div>
+
         <div className="div-send-email-button">
           <input
             placeholder="Digite o seu e-mail"
@@ -150,41 +226,52 @@ const ListComics: FC = () => {
               setEmail(e.target.value);
             }}
           />
-          <button
-            disabled={!email}
-            onClick={() => {
-              emailjs(email, JSON.stringify(comicsToSend));
-            }}
-          >
+          <button disabled={!email || loading} onClick={sendEmail}>
             Enviar e-mail
           </button>
         </div>
       </div>
-      <div className="container-comics">
-        <ul className="list-comics">
-          {listComics(
-            filter.length || comicsFiltereds.length ? comicsFiltereds : comics
-          )}
-        </ul>
+      <div className="filter">
+        <input
+          placeholder="Digite ao menos 3 caracteres!"
+          value={filter}
+          onChange={(e) => {
+            setFilter(e.target.value);
+          }}
+        />
       </div>
+      {loading && (
+        <div className="spinner">
+          <DotLoader color="red" loading={loading} css={override} size={150} />
+        </div>
+      )}
+      {!loading && (
+        <div className="container-comics">
+          <ul className="list-comics">{listComics()}</ul>
+        </div>
+      )}
       {comics.length > 0 && (
-        <div className="container-filter">
-            <button
-                disabled={offset === 0}
-              className="hq-button"
-              onClick={() => {
-                setOffset((prevState) => prevState - 20);
-              }}
-            >
-              prev
-            </button>
+        <div className="container-pagination">
+          <button
+            disabled={offset === 0 || loading}
+            className="hq-button"
+            onClick={() => {
+              setOffset((prevState) => prevState - 20);
+            }}
+          >
+            &lt;
+          </button>
           <div className="pagination">
-          {<p>{!!offset ? offset / 20 + 1 : 1}</p>}
+            {<p>{!!offset ? offset / 20 + 1 : 1}</p>}
           </div>
-          <button 
-          className="hq-button"
-          onClick={() => setOffset((prevState) => prevState + 20)}>
-            next
+          <button
+            disabled={loading}
+            className={`${loading} ? '' : hq-button`}
+            onClick={() => {
+              setOffset((prevState) => prevState + 20);
+            }}
+          >
+            &gt;
           </button>
         </div>
       )}
@@ -206,23 +293,24 @@ const ListComics: FC = () => {
           <div className="hq-info-text">
             <p>{comics.length ? comics[comicIndex].title : ""}</p>
             <p>{comics.length ? comics[comicIndex].description : ""}</p>
-          <button
-            className="select-hq-button"
-            onClick={() => {
-                const newComicsArray = comicsToSend;
-                newComicsArray.push({
-                    title: comics[comicIndex].title,
-                    description: comics[comicIndex].description,
-                    thumbnail: comics[comicIndex].thumbnail
-                })
-                setComicsToSend(newComicsArray);
-            }}
+            <button
+              className="select-hq-button"
+              onClick={() => {
+                if (isComicSelected(comics[comicIndex]?.id)) {
+                  removeHqToSend(comics[comicIndex]?.id);
+                } else {
+                  selectHqToSend(comics[comicIndex]?.id);
+                }
+              }}
             >
-            Selecionar
-          </button>
-            </div>
+              {isComicSelected(comics[comicIndex]?.id)
+                ? "Remover da lista"
+                : "Selecionar"}
+            </button>
+          </div>
         </div>
       </Modal>
+      <ToastContainer />
     </>
   );
 };
