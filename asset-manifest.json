@@ -1,29 +1,29 @@
 {
   "files": {
-    "main.css": "/marvel-comics/static/css/main.3e635395.chunk.css",
-    "main.js": "/marvel-comics/static/js/main.bd21b719.chunk.js",
-    "main.js.map": "/marvel-comics/static/js/main.bd21b719.chunk.js.map",
-    "runtime-main.js": "/marvel-comics/static/js/runtime-main.c41a6b72.js",
-    "runtime-main.js.map": "/marvel-comics/static/js/runtime-main.c41a6b72.js.map",
+    "main.css": "/marvel-comics/static/css/main.f062ec02.chunk.css",
+    "main.js": "/marvel-comics/static/js/main.1d0cc348.chunk.js",
+    "main.js.map": "/marvel-comics/static/js/main.1d0cc348.chunk.js.map",
+    "runtime-main.js": "/marvel-comics/static/js/runtime-main.9807c77d.js",
+    "runtime-main.js.map": "/marvel-comics/static/js/runtime-main.9807c77d.js.map",
     "static/css/2.c5b90173.chunk.css": "/marvel-comics/static/css/2.c5b90173.chunk.css",
-    "static/js/2.20aa2451.chunk.js": "/marvel-comics/static/js/2.20aa2451.chunk.js",
-    "static/js/2.20aa2451.chunk.js.map": "/marvel-comics/static/js/2.20aa2451.chunk.js.map",
-    "static/js/3.b4b67f11.chunk.js": "/marvel-comics/static/js/3.b4b67f11.chunk.js",
-    "static/js/3.b4b67f11.chunk.js.map": "/marvel-comics/static/js/3.b4b67f11.chunk.js.map",
+    "static/js/2.a5e99344.chunk.js": "/marvel-comics/static/js/2.a5e99344.chunk.js",
+    "static/js/2.a5e99344.chunk.js.map": "/marvel-comics/static/js/2.a5e99344.chunk.js.map",
+    "static/js/3.1f2c970b.chunk.js": "/marvel-comics/static/js/3.1f2c970b.chunk.js",
+    "static/js/3.1f2c970b.chunk.js.map": "/marvel-comics/static/js/3.1f2c970b.chunk.js.map",
     "index.html": "/marvel-comics/index.html",
     "static/css/2.c5b90173.chunk.css.map": "/marvel-comics/static/css/2.c5b90173.chunk.css.map",
-    "static/css/main.3e635395.chunk.css.map": "/marvel-comics/static/css/main.3e635395.chunk.css.map",
-    "static/js/2.20aa2451.chunk.js.LICENSE.txt": "/marvel-comics/static/js/2.20aa2451.chunk.js.LICENSE.txt",
+    "static/css/main.f062ec02.chunk.css.map": "/marvel-comics/static/css/main.f062ec02.chunk.css.map",
+    "static/js/2.a5e99344.chunk.js.LICENSE.txt": "/marvel-comics/static/js/2.a5e99344.chunk.js.LICENSE.txt",
     "static/media/Marvel-Logo.8518dc47.png": "/marvel-comics/static/media/Marvel-Logo.8518dc47.png",
-    "static/media/heart.c31d61db.svg": "/marvel-comics/static/media/heart.c31d61db.svg",
-    "static/media/heartSelected.105f24fc.svg": "/marvel-comics/static/media/heartSelected.105f24fc.svg",
+    "static/media/heart.c412cbae.png": "/marvel-comics/static/media/heart.c412cbae.png",
+    "static/media/heartSelected.556c78a5.png": "/marvel-comics/static/media/heartSelected.556c78a5.png",
     "static/media/index.scss": "/marvel-comics/static/media/hq-background.dfa15482.jpeg"
   },
   "entrypoints": [
-    "static/js/runtime-main.c41a6b72.js",
+    "static/js/runtime-main.9807c77d.js",
     "static/css/2.c5b90173.chunk.css",
-    "static/js/2.20aa2451.chunk.js",
-    "static/css/main.3e635395.chunk.css",
-    "static/js/main.bd21b719.chunk.js"
+    "static/js/2.a5e99344.chunk.js",
+    "static/css/main.f062ec02.chunk.css",
+    "static/js/main.1d0cc348.chunk.js"
   ]
 }
