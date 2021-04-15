@@ -1,5 +1,6 @@
 {
   "name": "my-app",
+  "homepage": "https://lucasbritx.github.io/marvel-comics/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -12,6 +13,8 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
+    "react-spinners": "^0.10.6",
+    "react-toastify": "^7.0.3",
     "sass": "^1.32.8",
     "typescript": "^4.1.2",
     "web-vitals": "^1.0.1"
@@ -24,7 +27,6 @@
     "gh-pages": "^3.1.0"
   },
   "scripts": {
-    "homepage": "https://lucasbritx.github.io/marvel-comics/",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
