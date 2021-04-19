@@ -1,7 +1,7 @@
 import React from "react";
 import emailjs from "emailjs-com";
 
-const emailHelper = async (receiverEmail: string, message: string) => {
+const emailHelper = async (receiverEmail: string, message: string[]) => {
   const result = await emailjs.send(
     `${process.env.REACT_APP_SERVICE_ID}`,
     `${process.env.REACT_APP_TEMPLATE_ID}`,
