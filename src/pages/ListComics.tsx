@@ -73,8 +73,10 @@ const ListComics: FC = () => {
   const sendEmail = async () => {
     try {
       setLoading(true);
-      await emailjs(email, convertComicsJSONtoString().join(' \n \n '));
+      await emailjs(email, convertComicsJSONtoString());
       toast.success("E-mail enviado");
+      setComicsToSend([])
+      setEmail("");
       setLoading(false);
     } catch (error) {
       toast.error("Erro ao enviar o e-mail");
@@ -166,50 +168,54 @@ const ListComics: FC = () => {
     });
   };
 
-  const isComicSelected = useCallback(
-    (comicId) => {
+  const isComicSelected = (comicId: any) => { 
       if (comicsToSend.length > 0) {
         return comicsToSend.some((comic) => comic.id === comicId);
       } else {
         return false;
       }
-    },
-    [comicsToSend]
-  );
+    }
 
   useEffect(() => {
     getComics();
   }, [offset, getComics]);
 
   const selectHqToSend = (comicId: any) => {
-    const newComicsArray = comicsToSend;
+    const comicsSelecteds = comicsToSend;
     const comic = comics?.find((comic) => comic.id === comicId);
     if (comic) {
-      newComicsArray.push({
+      comicsSelecteds.push({
         id: comic.id,
         description: comic.description,
         thumbnail: comic.thumbnail,
         title: comic.title,
       });
     }
-    getComics();
-    setComicsToSend(newComicsArray);
+    setComicsToSend(comicsSelecteds);
   };
 
   const removeHqToSend = (comicId: any) => {
     const comicsSelecteds = comicsToSend.filter(
       (comic) => comic.id !== comicId
     );
-    getComics();
     setComicsToSend(comicsSelecteds);
   };
 
   const convertComicsJSONtoString = () => {
     return comicsToSend.map((c: IComic)=> {
       return `
-      ${`Title: ${c.title} \n`}
-      ${`Description: ${c.description} \n`}
-      ${`HQ Image Link: ${c.thumbnail.path} \n`}
+      <p>
+        Title:
+        ${c.title}
+        </p>
+        <img
+        src="${c.thumbnail.path}.${c.thumbnail.extension}"
+        alt="${c.title}"
+        />
+        ${c.description ? `<p>
+        Description:
+        ${c.description}
+        </p>` : ''}
       `
     })
   };
@@ -229,6 +235,7 @@ const ListComics: FC = () => {
 
         <div className="div-send-email-button">
           <input
+            value={email}
             placeholder="Digite o seu e-mail"
             onChange={(e) => {
               setEmail(e.target.value);
@@ -306,8 +313,10 @@ const ListComics: FC = () => {
               onClick={() => {
                 if (isComicSelected(comics[comicIndex]?.id)) {
                   removeHqToSend(comics[comicIndex]?.id);
+                  setShowModal(false);
                 } else {
                   selectHqToSend(comics[comicIndex]?.id);
+                  setShowModal(false);
                 }
               }}
             >
