@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useCallback, FC, useRef } from "react";
+import DotLoader from "react-spinners/ClipLoader";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 import marvelLogo from "../assets/images/Marvel-Logo.png";
 import heart from "../assets/images/heart.png";
 import heartSelected from "../assets/images/heartSelected.png";
 import Modal from "../components/Modal";
 import api from "../middlewares/axios";
 import emailjs from "../utils/emailjs";
-import DotLoader from "react-spinners/ClipLoader";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.min.css";
 
 interface IThumbnail {
   extension: string;
@@ -107,17 +107,24 @@ const ListComics: FC = () => {
   });
 
   useEffect(() => {
-    const delayFilter = setTimeout(() => {
-      if (filter.length === 0 || filter.length >= 3) {
-        getComics();
-        setOffset(0);
-      }
-    }, 500);
+    if(filter.length === 0 || filter.length >= 3) {
+      const delayFilter = setTimeout(() => {          
+          if(offset >= 1){
+            setOffset(0);
+          } else {
+            getComics();
+          }
+      }, 500);
 
-    return () => {
-      clearTimeout(delayFilter);
+      return () => {
+        clearTimeout(delayFilter);
+      };
     };
   }, [filter]);
+
+  useEffect(() => { 
+    getComics();
+  }, [offset]);
 
   const renderModal = (comicIndex: number) => {
     setShowModal(true);
@@ -176,9 +183,6 @@ const ListComics: FC = () => {
       }
     }
 
-  useEffect(() => {
-    getComics();
-  }, [offset, getComics]);
 
   const selectHqToSend = (comicId: any) => {
     const comicsSelecteds = comicsToSend;
@@ -191,7 +195,7 @@ const ListComics: FC = () => {
         title: comic.title,
       });
     }
-    setComicsToSend(comicsSelecteds);
+    setComicsToSend([...comicsSelecteds]);
   };
 
   const removeHqToSend = (comicId: any) => {
@@ -204,13 +208,13 @@ const ListComics: FC = () => {
   const convertComicsJSONtoString = () => {
     return comicsToSend.map((c: IComic)=> {
       return `
-      <p>
-        Title:
-        ${c.title}
+        <p>
+          Title: ${c.title}
         </p>
-        <img
-        src="${c.thumbnail.path}.${c.thumbnail.extension}"
-        alt="${c.title}"
+        <img 
+          src="${c.thumbnail.path}.${c.thumbnail.extension}" 
+          alt="${c.title}"
+          style="width: 12rem;"
         />
         ${c.description ? `<p>
         Description:
