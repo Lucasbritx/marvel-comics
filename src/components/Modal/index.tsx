@@ -12,8 +12,10 @@ const Modal: FC<IModal> = ({ handleClose, show, children, modalRef }) => {
   if(!show) {
     return null;
   }
+
   return (
-    <div className="modal display-block">
+    <div 
+    className="modal display-block">
       <section ref={modalRef} className="modal-main">
         {children}
         <button className="close-button" type="button" onClick={handleClose}>

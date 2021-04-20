@@ -54,6 +54,8 @@ const ListComics: FC = () => {
 
   const [showModal, setShowModal] = useState(false);
   const ImageNotFound = "Imagem não encontrada!";
+  const ENTER_KEY_1 = 0;
+  const ENTER_KEY_2 = 13;
 
   const getComicsByFilter = useCallback(
     async (comicsUrl: string) => {
@@ -131,6 +133,13 @@ const ListComics: FC = () => {
     setComicIndex(comicIndex);
   };
 
+  const handleKeypress = (e: any, index: number) => {
+  if (e.keyCode === ENTER_KEY_1 || ENTER_KEY_2) {
+   return renderModal(index);
+  }
+  return null;
+};
+
   const listComics = () => {
     return comics.map((comic: IComic, index: number) => {
       return (
@@ -146,6 +155,9 @@ const ListComics: FC = () => {
             src={`${comic.thumbnail.path}/portrait_incredible.${comic.thumbnail.extension}`}
           />
           <div
+            role="button"
+            tabIndex={0}
+            onKeyPress={(e)=> handleKeypress(e, index)}
             onClick={() => {
               renderModal(index);
             }}
@@ -266,7 +278,7 @@ const ListComics: FC = () => {
       )}
       {!loading && (
         <div className="container-comics">
-          <ul className="list-comics">{listComics()}</ul>
+          <ul role="tablist" className="list-comics">{listComics()}</ul>
         </div>
       )}
       {comics.length > 0 && (
